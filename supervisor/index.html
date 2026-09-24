@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>長照紀錄助理｜居家服務督導員</title><link rel="stylesheet" href="../shared/styles.css"></head>
+<body><div class="wrap"><a class="home-link" href="../">← 返回入口首頁</a>
+<h1>長照紀錄助理｜居家服務督導員</h1><div class="sub">居督專用 App｜服務追蹤、排班、代班、異常事件與服務界線</div>
+<div class="notice"><strong>居督資料獨立：</strong>本頁不載入個管 A～E Style Profile；只共用基礎長照語意核心，再疊加居督專屬語意與處理格式。</div>
+<div class="card"><div class="row three"><div><label>追蹤方式</label><select id="method"><option>居服員回報</option><option>服務異常追蹤</option><option>排班協調</option><option>電訪</option><option>電聯</option><option>家訪</option></select></div><div><label>追蹤日期</label><input id="date" type="date"></div><div><label>延伸深度</label><select id="depth"><option value="standard">標準：跨議題＋6項追問</option><option value="broad">廣泛：跨議題＋10項追問＋可能資源方向</option><option value="conservative">保守：只列3項最直接追問</option></select></div></div>
+<div style="margin-top:10px"><label>正式紀錄策略</label><select id="recordMode"><option value="faithful">事實保真（建議）</option><option value="compact">事實保真＋簡化贅詞</option></select></div>
+<div id="profile" class="profile" style="margin-top:10px"></div></div>
+<div class="card"><label>自然語境輸入</label><textarea id="input" placeholder="例如：居服員明天上午臨時請假，案女白天要上班，目前找不到代班，我已聯繫其他居服員詢問。"></textarea>
+<div class="btns"><button id="sampleLeave">臨時請假＋無人力</button><button id="sampleScope">超出服務範圍</button><button id="sampleNoShow">未到班＋獨居</button><button id="sampleConflict">案家衝突</button><button id="clear">清除</button><button id="gen" class="primary">深層解析並生成</button></div></div>
+<div class="card"><h2>語意解析</h2><div class="row two"><div><div class="meta">辨識到的議題</div><div id="hits" class="chips"><span class="meta">尚未分析</span></div></div><div><div class="meta">已剝離的操作指令</div><div id="instructions" class="chips"><span class="meta">尚未分析</span></div></div></div><div id="crossBox"></div><div id="riskBox" class="riskbox hidden"></div><div id="qa" class="qa hidden"></div></div>
+<div class="card"><h2>正式督導紀錄草稿</h2><div id="output" class="output">尚未產生</div><div class="btns"><button id="copy">複製正式紀錄</button></div></div>
+<div class="card"><h2>延伸答覆／追蹤建議</h2><div id="advice" class="advice">尚未產生</div></div>
+<div class="card"><h2>可直接詢問案家／居服員／相關單位的話</h2><div id="questionScript" class="scriptbox">尚未產生</div></div>
+<div class="card"><details><summary>查看／搜尋居督語意詞庫</summary><div class="lexbar"><input id="lexSearch" placeholder="搜尋：代班、遲到、無人應門、超出服務範圍…"><select id="lexGroup"></select></div><div id="lexCount" class="meta"></div><div id="lexGrid" class="lexgrid"></div></details></div>
+<div id="status" class="status"></div></div>
+<script src="../shared/core.js"></script><script src="app.js"></script></body></html>

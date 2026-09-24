@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>長照紀錄助理｜個案管理員</title><link rel="stylesheet" href="../shared/styles.css"></head>
+<body><div class="wrap"><a class="home-link" href="../">← 返回入口首頁</a>
+<h1>長照紀錄助理｜個案管理員</h1><div class="sub">個管專用 App｜長照語意解析＋A～E 去識別化 Style Profile</div>
+<div class="notice"><strong>事實保真：</strong>延伸建議不會自動寫入正式紀錄；沒有足夠證據時保留「待確認」。</div>
+<div class="card"><div class="row three">
+<div><label>個管書寫習慣</label><select id="style"><option value="styleA">個管風格 A｜日期＋(一)(二)結構型</option><option value="styleB">個管風格 B｜近期＋精簡條列型</option><option value="styleC">個管風格 C｜案主＋互動鏈型</option><option value="styleD">個管風格 D｜直接來源＋細項型</option><option value="styleE">個管風格 E｜自然段落＋因果型</option></select></div>
+<div><label>追蹤方式</label><select id="method"><option>電訪</option><option>電聯</option><option>家訪</option><option>家訪+電訪</option></select></div>
+<div><label>追蹤日期</label><input id="date" type="date"></div></div>
+<div class="row two" style="margin-top:10px"><div><label>延伸深度</label><select id="depth"><option value="standard">標準：跨議題＋6項追問</option><option value="broad">廣泛：跨議題＋10項追問＋可能資源方向</option><option value="conservative">保守：只列3項最直接追問</option></select></div>
+<div><label>正式紀錄策略</label><select id="recordMode"><option value="faithful">事實保真（建議）</option><option value="compact">事實保真＋簡化贅詞</option></select></div></div>
+<div id="profile" class="profile" style="margin-top:10px"></div></div>
+<div class="card"><label>自然語境輸入</label><textarea id="input" placeholder="例如：案女表示個案昨天出院，目前有壓瘡，白天多臥床，請幫我整理電訪紀錄並告訴我還要確認什麼。"></textarea>
+<div class="btns"><button id="sampleAccident">車禍＋ICU</button><button id="sampleWound">出院＋壓瘡</button><button id="sampleCare">照顧人力不足</button><button id="sampleService">服務不滿意</button><button id="clear">清除</button><button id="gen" class="primary">深層解析並生成</button><button id="compare">比較五種風格</button></div></div>
+<div class="card"><h2>語意解析</h2><div class="row two"><div><div class="meta">辨識到的議題</div><div id="hits" class="chips"><span class="meta">尚未分析</span></div></div><div><div class="meta">已剝離的操作指令</div><div id="instructions" class="chips"><span class="meta">尚未分析</span></div></div></div><div id="crossBox"></div><div id="riskBox" class="riskbox hidden"></div><div id="qa" class="qa hidden"></div></div>
+<div class="card"><h2>正式紀錄草稿</h2><div id="output" class="output">尚未產生</div><div class="btns"><button id="copy">複製正式紀錄</button></div></div>
+<div class="card"><h2>延伸答覆／追蹤建議</h2><div id="advice" class="advice">尚未產生</div></div>
+<div class="card"><h2>可直接詢問案家的話</h2><div id="questionScript" class="scriptbox">尚未產生</div></div>
+<div id="compareCard" class="card hidden"><h2>五種個管風格比較</h2><div id="grid" class="compare"></div></div>
+<div class="card"><details><summary>查看／搜尋個管共用長照語意詞庫</summary><div class="lexbar"><input id="lexSearch" placeholder="搜尋：壓瘡、外看、沒錢、跌倒、喘息…"><select id="lexGroup"></select></div><div id="lexCount" class="meta"></div><div id="lexGrid" class="lexgrid"></div></details></div>
+<div id="status" class="status"></div></div>
+<script src="../shared/core.js"></script><script src="app.js"></script></body></html>
