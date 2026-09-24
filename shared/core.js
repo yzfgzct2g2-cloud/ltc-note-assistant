@@ -91,6 +91,80 @@ window.LTCShared=(function(){
   if(compact)t=t.replace(/目前目前/g,"目前").replace(/且且/g,"且");
   return t.trim().replace(/^[，,且]+/,"");
  }
+
+ function cnNumber(s){
+  if(/^\d+$/.test(s))return Number(s);
+  var m={"零":0,"〇":0,"一":1,"二":2,"兩":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9};
+  if(s==="十")return 10;
+  if(s.includes("十")){
+   var p=s.split("十"),t=p[0]?m[p[0]]:1,o=p[1]?m[p[1]]:0;
+   if(t!==undefined&&o!==undefined)return t*10+o;
+  }
+  return m[s]!==undefined?m[s]:s;
+ }
+ function normalizeNarrativeTime(t){
+  t=t.replace(/昨天/g,"昨日").replace(/今天/g,"今日").replace(/前天/g,"前日")
+     .replace(/早上/g,"上午").replace(/晚上/g,"晚間");
+  return t.replace(/(凌晨|上午|中午|下午|傍晚|晚間)?\s*([零〇一二兩三四五六七八九十\d]{1,4})點(半)?/g,function(_,period,num,half){
+   var n=cnNumber(num);return (period||"")+n+"時"+(half?"30分":"");
+  });
+ }
+ function normalizeNarrativeContext(t){
+  return t
+   .replace(/(?:在)?洗澡(?:的時候|時|期間)/g,"於沐浴過程中")
+   .replace(/(?:在)?沐浴(?:的時候|時|期間)/g,"於沐浴過程中")
+   .replace(/(?:在)?上廁所(?:的時候|時|期間)/g,"於如廁過程中")
+   .replace(/(?:在)?如廁(?:的時候|時|期間)/g,"於如廁過程中")
+   .replace(/(?:在)?起床(?:的時候|時|期間)/g,"於起身過程中")
+   .replace(/(?:在)?起身(?:的時候|時|期間)/g,"於起身過程中")
+   .replace(/(?:在)?下床(?:的時候|時|期間)/g,"於下床過程中")
+   .replace(/(?:在)?走路(?:的時候|時|期間)/g,"於行走過程中")
+   .replace(/(?:在)?行走(?:的時候|時|期間)/g,"於行走過程中")
+   .replace(/(?:在)?移位(?:的時候|時|期間)/g,"於移位過程中")
+   .replace(/(?:在)?上下樓(?:的時候|時|期間)/g,"於上下樓過程中")
+   .replace(/(?:在)?吃飯(?:的時候|時|期間)/g,"於進食過程中")
+   .replace(/(?:在)?進食(?:的時候|時|期間)/g,"於進食過程中")
+   .replace(/(?:在)?外出(?:的時候|時)/g,"外出期間");
+ }
+ function normalizeNarrativeTerms(t){
+  return t
+   .replace(/出車禍/g,"發生交通事故")
+   .replace(/腳趾頭/g,"腳趾").replace(/腳指頭/g,"腳趾")
+   .replace(/膝蓋/g,"膝部").replace(/屁股/g,"臀部")
+   .replace(/有些破皮|有點破皮|有一點破皮|破了一點皮/g,"局部破皮")
+   .replace(/有些擦傷|有點擦傷/g,"有擦傷")
+   .replace(/有些腫|有點腫/g,"有腫脹")
+   .replace(/沒有家屬可以照顧/g,"無其他家屬可協助照顧")
+   .replace(/找不到代班/g,"尚未媒合到代班人力")
+   .replace(/找不到人力/g,"尚未媒合到可服務人力")
+   .replace(/照顧壓力很大|照顧壓力也很大/g,"照顧負荷偏高")
+   .replace(/因為/g,"因").replace(/所以/g,"故").replace(/但是/g,"惟");
+ }
+ function injuryPhrase(x){
+  x=x.trim().replace(/^(且|並|有)/,"");
+  if(/局部破皮$/.test(x))return x+"情形";
+  if(/(?:擦傷|腫脹|疼痛|出血)$/.test(x)&&!/情形$/.test(x))return x+"情形";
+  return x;
+ }
+ function recomposeNarrative(t){
+  t=t.replace(/(於[^，。]{1,30}(?:過程中|期間))跌倒/g,"$1不慎跌倒")
+     .replace(/(於[^，。]{1,30}(?:過程中|期間))摔倒/g,"$1不慎摔倒")
+     .replace(/(於[^，。]{1,30}(?:過程中|期間))滑倒/g,"$1不慎滑倒");
+  t=t.replace(/((?:不慎)?(?:跌倒|摔倒|滑倒))[，,]\s*([^，。]{0,32}(?:局部破皮|擦傷|出血|腫脹|疼痛)[^，。]*)/g,function(_,event,injury){
+   return event+"，造成"+injuryPhrase(injury);
+  });
+  t=t.replace(/發生交通事故[，,]\s*目前於加護病房治療[，,]\s*目前體況趨於穩定/g,"發生交通事故，目前於加護病房治療，整體體況趨於穩定");
+  t=t.replace(/，且/g,"，並").replace(/目前目前/g,"目前").replace(/，，+/g,"，");
+  return t;
+ }
+ function expandNarrative(raw,subject,compact){
+  var t=formalPolish(raw,subject,compact);
+  t=normalizeNarrativeTime(t);
+  t=normalizeNarrativeContext(t);
+  t=normalizeNarrativeTerms(t);
+  t=recomposeNarrative(t);
+  return t.trim();
+ }
  function buildAdvice(analysis,depth,extraDefaults){
   var defaults=Object.assign({},GROUP_DEFAULTS,extraDefaults||{}),parts=[],q=[];
   var maxCross=depth==="broad"?3:2;
@@ -125,5 +199,5 @@ window.LTCShared=(function(){
  return {GROUPS:GROUPS,GROUP_DEFAULTS:GROUP_DEFAULTS,LEXICON:LEXICON,CROSS_RULES:CROSS_RULES,RELATIONS:RELATIONS,
   esc:esc,normText:normText,today:today,roc:roc,shortDate:shortDate,ensure:ensure,sentences:sentences,
   stripInstructions:stripInstructions,analyze:analyze,riskCheck:riskCheck,detectRelation:detectRelation,changeStatus:changeStatus,
-  formalPolish:formalPolish,buildAdvice:buildAdvice,questionScript:questionScript,listLexicon:listLexicon};
+  formalPolish:formalPolish,expandNarrative:expandNarrative,buildAdvice:buildAdvice,questionScript:questionScript,listLexicon:listLexicon};
 })();

@@ -9,7 +9,7 @@ const P={"styleA":{"name":"個管風格 A","subject":"個案","self":"個管","s
  $("style").addEventListener("change",profile);profile();
  function explicitSource(s){return /^(案|外看).{0,7}(表示|告知)|^(個案|案主)(表示|告知)|^其(告知|表示)|^個管(員)?/.test(s)}
  function render(style,raw){
-  var p=P[style],c=S.detectRelation(raw),a=S.sentences(S.formalPolish(raw,p.subject,$("recordMode").value==="compact"));
+  var p=P[style],c=S.detectRelation(raw),a=S.sentences(S.expandNarrative(raw,p.subject,$("recordMode").value==="compact"));
   if(style==="styleA")return a.map(function(s,i){
    var x=explicitSource(s)||c==="待確認"?s:(i===0?c+"表示"+s:"其表示"+s);
    return "("+(["一","二","三","四","五","六"][i]||i+1)+")\n"+S.shortDate($("date").value)+"\n"+S.ensure(x);
@@ -56,6 +56,7 @@ const P={"styleA":{"name":"個管風格 A","subject":"個案","self":"個管","s
  }
  $("gen").onclick=function(){if(!$("input").value.trim())return;var a=update();$("output").textContent=record($("style").value,a);$("status").textContent="已完成個管紀錄生成。";$("status").className="status ok"};
  $("compare").onclick=function(){if(!$("input").value.trim())return;var a=update();$("grid").innerHTML=Object.keys(P).map(function(k){return '<div class="cmp"><h3>'+S.esc(P[k].name)+'</h3><div class="meta">'+S.esc(P[k].desc)+'</div><div class="txt">'+S.esc(record(k,a))+'</div></div>'}).join("");$("compareCard").classList.remove("hidden")};
+ $("sampleFall").onclick=function(){$("input").value="個案昨日下午四點洗澡時跌倒，腳趾頭有些破皮";};
  $("sampleAccident").onclick=function(){$("input").value="個案上週五出門時出車禍，目前住進加護病房，體況有趨於穩定。幫我生成一段電訪紀錄，還要告訴我接下來要追蹤什麼。"};
  $("sampleWound").onclick=function(){$("input").value="個案目前剛出院，身上有壓瘡，現在大多躺在床上，可否協助生成一段話？"};
  $("sampleCare").onclick=function(){$("input").value="外看下週要休假十天，案女白天要上班，家裡目前沒有人可以顧個案，家屬最近照顧壓力也很大。"};

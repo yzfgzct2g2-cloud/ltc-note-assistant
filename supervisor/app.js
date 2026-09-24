@@ -9,7 +9,7 @@ const SUPERVISOR_CROSS=[{"need": ["worker_leave", "no_caregiver"], "title": "居
  $("profile").textContent=SUPERVISOR_PROFILE.name+"｜"+SUPERVISOR_PROFILE.desc+"\n預設稱謂：個案｜自稱：居督｜四欄：1.2.3.直接敘事｜第五欄：只整理輸入中已明確發生的督導處理";
  function explicitSource(s){return /^(案|外看|居服員|A個管|照專|服務單位|醫院端|社工|護理師|醫師).{0,8}(表示|告知|回報)|^(個案|案主)(表示|告知)|^其(告知|表示)|^(個管(員)?|居督)/.test(s)}
  function formalSupervisor(raw){
-  var t=S.formalPolish(raw,"個案",$("recordMode").value==="compact");
+  var t=S.expandNarrative(raw,"個案",$("recordMode").value==="compact");
   return t.replace(/我有跟([^，。]+?)說/g,"居督已向$1說明").replace(/我跟([^，。]+?)說/g,"居督向$1說明")
    .replace(/我有打給/g,"居督已電聯").replace(/我打給/g,"居督電聯")
    .replace(/我已聯繫/g,"居督已聯繫").replace(/我已通知/g,"居督已通知")

@@ -12,7 +12,7 @@
 <div><label>正式紀錄策略</label><select id="recordMode"><option value="faithful">事實保真（建議）</option><option value="compact">事實保真＋簡化贅詞</option></select></div></div>
 <div id="profile" class="profile" style="margin-top:10px"></div></div>
 <div class="card"><label>自然語境輸入</label><textarea id="input" placeholder="例如：案女表示個案昨天出院，目前有壓瘡，白天多臥床，請幫我整理電訪紀錄並告訴我還要確認什麼。"></textarea>
-<div class="btns"><button id="sampleAccident">車禍＋ICU</button><button id="sampleWound">出院＋壓瘡</button><button id="sampleCare">照顧人力不足</button><button id="sampleService">服務不滿意</button><button id="clear">清除</button><button id="gen" class="primary">深層解析並生成</button><button id="compare">比較五種風格</button></div></div>
+<div class="btns"><button id="sampleFall">跌倒＋破皮</button><button id="sampleAccident">車禍＋ICU</button><button id="sampleWound">出院＋壓瘡</button><button id="sampleCare">照顧人力不足</button><button id="sampleService">服務不滿意</button><button id="clear">清除</button><button id="gen" class="primary">深層解析並生成</button><button id="compare">比較五種風格</button></div></div>
 <div class="card"><h2>語意解析</h2><div class="row two"><div><div class="meta">辨識到的議題</div><div id="hits" class="chips"><span class="meta">尚未分析</span></div></div><div><div class="meta">已剝離的操作指令</div><div id="instructions" class="chips"><span class="meta">尚未分析</span></div></div></div><div id="crossBox"></div><div id="riskBox" class="riskbox hidden"></div><div id="qa" class="qa hidden"></div></div>
 <div class="card"><h2>正式紀錄草稿</h2><div id="output" class="output">尚未產生</div><div class="btns"><button id="copy">複製正式紀錄</button></div></div>
 <div class="card"><h2>延伸答覆／追蹤建議</h2><div id="advice" class="advice">尚未產生</div></div>
