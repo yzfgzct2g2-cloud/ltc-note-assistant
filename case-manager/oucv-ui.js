@@ -27,6 +27,34 @@
   }
   lexSearch.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(extendSearch,120)});
   if(lexGroup)lexGroup.addEventListener('change',function(){token++;setTimeout(extendSearch,0)});
+
+  var officialBar=document.createElement('div');
+  officialBar.className='lexbar';
+  officialBar.style.marginTop='10px';
+  officialBar.innerHTML='<select id="oucvOfficialType" aria-label="完整 ICD 搜尋類型"><option value="cm">完整疾病／診斷 ICD-10-CM</option><option value="pcs">完整處置 ICD-10-PCS</option><option value="all">CM＋PCS 全部</option></select><button id="oucvOfficialSearch" type="button">搜尋完整 ICD</button>';
+  if(lexGrid&&lexGrid.parentNode)lexGrid.parentNode.insertBefore(officialBar,lexGrid);
+  var officialNote=document.createElement('div');
+  officialNote.className='meta';
+  officialNote.textContent='完整 ICD 僅在按下搜尋時載入官方索引；查詢命中不得作為自動診斷、因果判定或直接寫入正式紀錄。';
+  if(officialBar.parentNode)officialBar.parentNode.insertBefore(officialNote,officialBar.nextSibling);
+
+  async function officialLookup(){
+    var btn=$("oucvOfficialSearch"),type=$("oucvOfficialType"),q=lexSearch.value.trim();
+    if(!btn||!type)return;
+    if(!q){setStatus('請先輸入疾病、處置、英文名稱或 ICD 代碼');return}
+    btn.disabled=true;var old=btn.textContent;btn.textContent='載入完整 ICD…';
+    try{
+      var rows=await O.officialSearch(q,type.value,100);
+      Array.from(lexGrid.querySelectorAll('[data-oucv-official]')).forEach(function(x){x.remove()});
+      rows.forEach(function(x){
+        var d=document.createElement('div');d.className='lexitem oucv-item';d.setAttribute('data-oucv-official',x.kind+':'+x.code);
+        d.innerHTML='<div class="head"><strong>'+esc(x.code+' '+(x.zh||''))+'</strong><span class="tag">ICD-10-'+esc(x.kind)+'</span></div><div class="aliases"><strong>英文：</strong>'+esc(x.en||'—')+'</div><div class="follow"><strong>用途：</strong>官方代碼查詢；不得作為自動診斷或未經確認的專業判定</div>';lexGrid.appendChild(d);
+      });
+      setStatus('完整 ICD '+rows.length+' 筆命中（最多顯示100筆）');
+    }catch(e){setStatus('完整 ICD 載入失敗；原個管與常用 OUCV 搜尋仍可使用')}
+    finally{btn.disabled=false;btn.textContent=old}
+  }
+  var officialBtn=$("oucvOfficialSearch");if(officialBtn)officialBtn.addEventListener('click',officialLookup);
   var box=document.createElement('div');box.id='oucvMentionBox';box.className='qa hidden';
   box.setAttribute('aria-live','polite');
   var anchor=$("crossBox")||hits; if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(box,anchor.nextSibling);
