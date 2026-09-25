@@ -1,0 +1,11 @@
+SOURCE: exact Git objects restored from authenticated connector metadata + byte-verified files; NOT a network git clone/fetch; shallow baseline
+/mnt/data/ltc_continue_20260925/restore
+origin	https://github.com/yzfgzct2g2-cloud/ltc-note-assistant.git (fetch)
+origin	https://github.com/yzfgzct2g2-cloud/ltc-note-assistant.git (push)
+## recovered-cm-base
+recovered-cm-base
+94af462c6350511a35ca09640d31380efdeefcfb
+0d9c167af279f1830e5f1ccfcd22b356d54d303a
+worktree /mnt/data/ltc_continue_20260925/restore
+HEAD 94af462c6350511a35ca09640d31380efdeefcfb
+branch refs/heads/recovered-cm-base

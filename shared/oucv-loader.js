@@ -19,6 +19,9 @@
     })).then(parts=>{
       records=parts.flat().map(x=>Object.assign({},x,{_hay:norm(x.terms.join(' '))}));
       return records;
+    }).catch(function(error){
+      loading=null; // A later explicit user request may retry; never loop automatically.
+      throw error;
     });
     return loading;
   }
@@ -52,7 +55,10 @@
       if(!data||!Array.isArray(data.records))throw new Error('ICD index schema mismatch: '+kind);
       officialCache[kind]=data.records.map(x=>Object.assign({},x,{_hay:norm([x.code,x.zh,x.en].join(' ')),kind:kind.toUpperCase()}));
       return officialCache[kind];
-    })();
+    })().catch(function(error){
+      officialLoading[kind]=null; // Release only this failed in-flight cache.
+      throw error;
+    });
     return officialLoading[kind];
   }
   async function officialSearch(q,kind='cm',limit=100){

@@ -1,0 +1,91 @@
+{
+  "scope": "complete-page browser integration with real scripts and real packaged JSON/gzip; fixture transport only; not HTTP/Pages/iOS E2E",
+  "checks": [
+    {
+      "name": "initial page and independent case-manager controls; zero requests",
+      "status": "PASS"
+    },
+    {
+      "name": "50 record combinations preserve full baseline output + five-style comparison",
+      "status": "PASS"
+    },
+    {
+      "name": "actual clear button removes all OUCV mentions",
+      "status": "PASS"
+    },
+    {
+      "name": "editing invalidates old mentions immediately",
+      "status": "PASS"
+    },
+    {
+      "name": "sample button invalidates old mentions",
+      "status": "FAIL",
+      "error": "sample replaces text but leaves previous mentions"
+    },
+    {
+      "name": "earlier official query cannot overwrite a newer query",
+      "status": "PASS"
+    },
+    {
+      "name": "type change invalidates in-flight official results",
+      "status": "PASS"
+    },
+    {
+      "name": "official load recovers only on explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "common load failure leaves record generation usable and retry works",
+      "status": "PASS"
+    },
+    {
+      "name": "obsolete common-search failure cannot replace newer status",
+      "status": "FAIL",
+      "error": "obsolete common error replaced empty-query status"
+    },
+    {
+      "name": "real CM gzip decompression, lazy loading and successful cache",
+      "status": "PASS"
+    },
+    {
+      "name": "real PCS code search loads only PCS",
+      "status": "PASS"
+    },
+    {
+      "name": "large result sets obey 100-row display cap",
+      "status": "PASS"
+    },
+    {
+      "name": "record + clipboard denial handling survive unavailable optional vocab",
+      "status": "PASS"
+    },
+    {
+      "name": "notes remain text; no input in transport URL or body",
+      "status": "PASS"
+    },
+    {
+      "name": "375px viewport, keyboard focus, official selector accessible name",
+      "status": "PASS"
+    },
+    {
+      "name": "paused supervisor controls and four output snapshots stay unchanged",
+      "status": "PASS"
+    }
+  ],
+  "browser": "144.0.7559.96",
+  "script_orders": {
+    "case-manager": [
+      "../shared/core.js",
+      "../shared/oucv-loader.js",
+      "app.js",
+      "oucv-ui.js"
+    ],
+    "supervisor": [
+      "../shared/core.js",
+      "app.js"
+    ]
+  },
+  "baseline_snapshots_compared": 54,
+  "pass": 15,
+  "fail": 2
+}

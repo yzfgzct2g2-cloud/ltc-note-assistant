@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: no requests before explicit lookup
+ok 1 - no requests before explicit lookup
+  ---
+  duration_ms: 16.609789
+  type: 'test'
+  ...
+# Subtest: curated load caches success and does not load ICD
+ok 2 - curated load caches success and does not load ICD
+  ---
+  duration_ms: 1.854649
+  type: 'test'
+  ...
+# Subtest: curated load recovers on an explicit later request, without automatic retries
+not ok 3 - curated load recovers on an explicit later request, without automatic retries
+  ---
+  duration_ms: 21.640454
+  type: 'test'
+  location: '/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:16:1'
+  failureType: 'testCodeFailure'
+  error: 'synthetic temporary transport failure'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    c.fetch (/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:9:78)
+    evalmachine.<anonymous>:14:23
+    Array.map (<anonymous>)
+    Object.load (evalmachine.<anonymous>:13:43)
+    /mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:16:170
+    waitForActual (node:assert:552:21)
+    Function.rejects (node:assert:687:31)
+    TestContext.<anonymous> (/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:16:154)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+  ...
+# Subtest: official load recovers on an explicit later request, without automatic retries
+not ok 4 - official load recovers on an explicit later request, without automatic retries
+  ---
+  duration_ms: 22.384493
+  type: 'test'
+  location: '/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:17:1'
+  failureType: 'testCodeFailure'
+  error: 'synthetic temporary transport failure'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    c.fetch (/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:9:78)
+    evalmachine.<anonymous>:49:23
+    loadOfficial (evalmachine.<anonymous>:55:7)
+    Object.officialSearch (evalmachine.<anonymous>:63:24)
+    /mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:17:171
+    waitForActual (node:assert:552:21)
+    Function.rejects (node:assert:687:31)
+    TestContext.<anonymous> (/mnt/data/ltc_continue_20260925/worktree/tests/loader-regression.cjs:17:155)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 2
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 110.119537

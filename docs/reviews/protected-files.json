@@ -1,0 +1,77 @@
+[
+  {
+    "path": ".nojekyll",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  {
+    "path": "README.md",
+    "sha256": "02aaad4ea02876a2b3995248d33925db0c63cef1c77d5694ed5f6dd056553e26",
+    "unchanged": true
+  },
+  {
+    "path": "case-manager/app.js",
+    "sha256": "10fc080fa08cec13beb19702438af610daa4ab11fbcae287c35b8e7b89171632",
+    "unchanged": true
+  },
+  {
+    "path": "case-manager/index.html",
+    "sha256": "504dd04c469065c11716072a014df24ec900d7ff4a5cc780c4546115a2240af4",
+    "unchanged": true
+  },
+  {
+    "path": "index.html",
+    "sha256": "f3f61db2840543ecd1b6045c3be3fbc08b7a523db947828d2b562d447a96aae1",
+    "unchanged": true
+  },
+  {
+    "path": "shared/core.js",
+    "sha256": "6269e741c56225d4538c62ef378ed3f4914da54f62216ae50cb6177765f2d8d1",
+    "unchanged": true
+  },
+  {
+    "path": "shared/icd/icd10cm.search.json.gz",
+    "sha256": "d7d241ae1d569971e8ebfc3de067ab3ac57464e0b688acccd92cc021857b607c",
+    "unchanged": true
+  },
+  {
+    "path": "shared/icd/icd10pcs.search.json.gz",
+    "sha256": "1da1e3e5c2d2414d0549ab6b3c305819b3cb23b7316fc36d3d5b6233260a74cb",
+    "unchanged": true
+  },
+  {
+    "path": "shared/oucv/care.json",
+    "sha256": "77012240567d663e8745e7ef977bcbefa194727a9c166a020a8f39ec68a0e93a",
+    "unchanged": true
+  },
+  {
+    "path": "shared/oucv/medical.json",
+    "sha256": "b09cedf05781c25b2b9ef0f2cf15406a659acb544ca314383a96a9d2100ee690",
+    "unchanged": true
+  },
+  {
+    "path": "shared/oucv/network.json",
+    "sha256": "36b3146ffa59af308de2a678810b912efc0f42164074b274299ccc39bb1ed4d6",
+    "unchanged": true
+  },
+  {
+    "path": "shared/oucv/social.json",
+    "sha256": "6135294a7734718e51d671e72ae189a1d3c3f95ef8940e504bdae20265a66101",
+    "unchanged": true
+  },
+  {
+    "path": "shared/styles.css",
+    "sha256": "8bb615ed681b66d645e9d196130bca34641e7770f75486701ff105c6bfd63b19",
+    "unchanged": true
+  },
+  {
+    "path": "supervisor/app.js",
+    "sha256": "ddfdd6da081d7e9b57bf172cbbf5d0312ab85f009bd592189a72892d6688ddd0",
+    "unchanged": true
+  },
+  {
+    "path": "supervisor/index.html",
+    "sha256": "93a55d5a3938901b45a7d5332f5db271a6ddb614511e9786e33d2438d667c810",
+    "unchanged": true
+  }
+]
