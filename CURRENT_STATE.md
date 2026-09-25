@@ -1,8 +1,8 @@
 # CURRENT_STATE — LTC Note Assistant
 
-- Objective: complete the case-manager OUCV search hotfix without changing supervisor UI or record semantics.
-- Current: local source integration and controlled full-page tests complete; 17/17 scenarios and 54 baseline output comparisons pass. This containing local commit is not published. OUCV data remains 0.2.0-rc.1.
-- Next: obtain explicit authorization for non-force publication of this exact scoped hotfix to codex/case-manager-oucv-v02; then read the live ref and reconcile only if it is still the verified ancestor.
-- Blocker: branch publication authorization unconfirmed; hosted HTTP/Pages/iPhone E2E unavailable under the current browser URLBlocklist. Controlled full-page integration is not hosted E2E.
-- Repository: yzfgzct2g2-cloud/ltc-note-assistant; base 94af462c6350511a35ca09640d31380efdeefcfb; local branch codex/case-manager-oucv-validation. Authenticated-connector-restored shallow Git baseline, not a network clone.
-- Guard Rails: no main/Pages/deploy, no supervisor UI or shared core/record-generation semantic change, no new service/dependency or personal data, no force push/history rewrite. Read docs/reviews/cm-oucv-integration-20260925.md and its evidence. Do not repeat the completed ICD import.
+- Objective: publish the verified case-manager OUCV hotfix to its authorized feature branch, then collect real-device acceptance.
+- Current: source checkpoint a027ad991df5b406b0b14e78b7a22b6dd1ca8836 has the exact verified local tree 57a1a50e2c5db90dde24c6ddca89976176f085cb. This containing continuation changes documentation only. Controlled full-page tests 17/17, loader regression 4/4, and 54 baseline output comparisons pass; data remains OUCV 0.2.0-rc.1. Derive publication status by reading the live feature ref; creating a commit alone is not proof of publication.
+- Next: after confirming that codex/case-manager-oucv-v02 contains this checkpoint, perform the real-device checklist in TESTING.md using the candidate on localhost. Do not test the unchanged production URL as the new version.
+- Blocker: hosted HTTP/Pages/iPhone acceptance has not been completed. No staging or production deployment is authorized by this publication Mission.
+- Repository: yzfgzct2g2-cloud/ltc-note-assistant; authorized destination codex/case-manager-oucv-v02; publication base 94af462c6350511a35ca09640d31380efdeefcfb; archived local checkpoint 1c30794f8aa73f9c32b453e03ae177f98474f3f8. New publication commits preserve source content but have new GitHub metadata/SHAs.
+- Guard Rails: user explicitly authorized non-force publication to the named feature branch on 2026-09-25; this supersedes the earlier authorization-pending note. No main/Pages/PR/deploy, supervisor UI or shared core/record-generation semantic changes, new services/dependencies, personal data, force push, or history rewrite. Do not repeat the completed ICD import. Read docs/reviews/cm-oucv-publication-20260925.md.
