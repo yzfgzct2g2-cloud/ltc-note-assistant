@@ -1,0 +1,45 @@
+(function(){
+  var O=window.OUCVSearch,$=function(id){return document.getElementById(id)};
+  if(!O)return;
+  var lexSearch=$("lexSearch"),lexGroup=$("lexGroup"),lexGrid=$("lexGrid"),lexCount=$("lexCount"),input=$("input"),hits=$("hits");
+  if(!lexSearch||!lexGrid||!lexCount)return;
+  var token=0,timer=null;
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]})}
+  function domainLabel(d){
+    var m={"medical.disease":"疾病／診斷","health.symptom":"症狀／徵象","medical.procedure":"醫療處置","health.nutrition":"營養／飲食","care.service":"長照服務","function.adl_iadl":"功能／ADL／IADL","equipment.assistive":"輔具／設備","event.workflow":"事件／行政","social.welfare":"社會福利","protection.safety":"保護／安全","family.relationship":"家庭／關係","economy.housing":"經濟／居住","network.professional":"專業／網絡","employment.education.justice":"就業／教育／司法"};
+    return m[d]||d;
+  }
+  function setStatus(msg){
+    var base=lexCount.textContent.replace(/\s*｜\s*OUCV.*$/,'');
+    lexCount.textContent=base+' ｜ OUCV '+O.version+'：'+msg;
+  }
+  async function extendSearch(){
+    var q=lexSearch.value.trim(),mine=++token;
+    if(!q){setStatus('輸入關鍵字後載入共用詞彙');return}
+    if(lexGroup&&lexGroup.value){setStatus('目前分類篩選僅顯示原個管詞庫');return}
+    setStatus('搜尋中…');
+    try{
+      var rows=await O.search(q,80);if(mine!==token)return;
+      var existing=new Set(Array.from(lexGrid.querySelectorAll('[data-oucv-id]')).map(function(x){return x.getAttribute('data-oucv-id')}));
+      rows.forEach(function(x){if(existing.has(x.id))return;var d=document.createElement('div');d.className='lexitem oucv-item';d.setAttribute('data-oucv-id',x.id);d.innerHTML='<div class="head"><strong>'+esc(x.label)+'</strong><span class="tag">'+esc(domainLabel(x.domain))+'</span></div><div class="aliases"><strong>OUCV 搜尋詞：</strong>'+esc(x.terms.slice(1).join('、')||'—')+'</div><div class="follow"><strong>用途：</strong>搜尋提示；不得由症狀自動推定診斷或改寫正式紀錄</div>';lexGrid.appendChild(d)});
+      setStatus(rows.length+' 筆共用詞彙命中');
+    }catch(e){setStatus('擴充詞庫未載入，原個管功能仍可使用')}
+  }
+  lexSearch.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(extendSearch,120)});
+  if(lexGroup)lexGroup.addEventListener('change',function(){token++;setTimeout(extendSearch,0)});
+  var box=document.createElement('div');box.id='oucvMentionBox';box.className='qa hidden';
+  box.setAttribute('aria-live','polite');
+  var anchor=$("crossBox")||hits; if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(box,anchor.nextSibling);
+  async function renderMentions(){
+    if(!input||!input.value.trim()||!box)return;
+    var raw=input.value,mine=++token;
+    try{
+      var rows=await O.matchText(raw,20);if(mine!==token)return;
+      if(!rows.length){box.classList.add('hidden');box.textContent='';return}
+      box.classList.remove('hidden');
+      box.innerHTML='<strong>OUCV 共用詞彙提示：</strong>'+rows.map(function(x){return '<span class="chip">'+esc(x.label)+'</span>'}).join(' ')+'<div class="meta">僅代表文字中出現相符詞彙，不等於確診、因果、資格判定或已完成處置。</div>';
+    }catch(e){box.classList.add('hidden')}
+  }
+  ['gen','compare'].forEach(function(id){var el=$(id);if(el)el.addEventListener('click',function(){setTimeout(renderMentions,0)})});
+  setStatus('可用；完整 ICD 原始索引保留在 OUCV 雲端來源庫');
+})();
